@@ -46,15 +46,8 @@ const argv = yargs
     default: true,
   }).argv;
 
-/* we probably want some form of cleanup ahead of running the command
- * things to consider:
- *  - clean up node modules
- *  - clean up the build folder (derived data, gradlew cleanAll)
- *  - clean up the pods folder (pod install) (and Podfile.lock too)
- *  - kill all packagers
- *
- * other improvements to consider:
- *   - an option to uninstall the app from emulators
+/*
+ * see the test-local-e2e.js script for clean up process
  */
 
 // command order: we ask the user to select if they want to test RN tester
@@ -67,8 +60,6 @@ const argv = yargs
 if (isPackagerRunning() === 'running') {
   exec("lsof -i :8081 | grep LISTEN | /usr/bin/awk '{print $2}' | xargs kill");
 }
-
-console.log('argv', argv);
 
 if (argv.target === 'RNTester') {
   //FIXME: make sure that the commands retains colors
@@ -125,10 +116,6 @@ if (argv.target === 'RNTester') {
   }
 } else {
   console.info("We're going to test a fresh new RN project");
-
-  // remove the old project & archive if exists
-  exec('rm -rf /tmp/RNTestProject');
-  exec('rm -f ./*.tgz');
 
   // create the local npm package to feed the CLI
 
