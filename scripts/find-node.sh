@@ -16,21 +16,6 @@ if [[ -d $HOMEBREW_M1_BIN && ! $PATH =~ $HOMEBREW_M1_BIN ]]; then
   export PATH="$HOMEBREW_M1_BIN:$PATH"
 fi
 
-# Define NVM_DIR and source the nvm.sh setup script
-[ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
-
-# Source nvm with '--no-use' and then `nvm use` to respect .nvmrc
-# See: https://github.com/nvm-sh/nvm/issues/2053
-if [[ -s "$HOME/.nvm/nvm.sh" ]]; then
-  # shellcheck source=/dev/null
-  . "$HOME/.nvm/nvm.sh" --no-use
-  nvm use 2> /dev/null || nvm use default
-elif [[ -x "$(command -v brew)" && -s "$(brew --prefix nvm)/nvm.sh" ]]; then
-  # shellcheck source=/dev/null
-  . "$(brew --prefix nvm)/nvm.sh" --no-use
-  nvm use 2> /dev/null || nvm use default
-fi
-
 # Set up the nodenv node version manager if present
 if [[ -x "$HOME/.nodenv/bin/nodenv" ]]; then
   eval "$("$HOME/.nodenv/bin/nodenv" init -)"
